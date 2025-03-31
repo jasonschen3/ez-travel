@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 export default function BookTrip() {
@@ -10,6 +10,23 @@ export default function BookTrip() {
     destination: "",
     dateTime: "",
   });
+
+  useEffect(() => {
+    // Get and decode the source from URL query
+    const searchParams = new URLSearchParams(window.location.search);
+    const source = searchParams.get("source");
+    if (source) {
+      try {
+        const decodedSource = decodeURIComponent(source);
+        setBookingData((prev) => ({
+          ...prev,
+          destination: decodedSource,
+        }));
+      } catch (error) {
+        console.error("Error decoding source:", error);
+      }
+    }
+  }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
