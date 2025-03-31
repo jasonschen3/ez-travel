@@ -9,7 +9,7 @@ export default function TripDetails() {
   };
   return (
     <div className="max-w-md mx-auto p-6 border-2 border-black m-4">
-      <h1 className="text-2xl font-bold mb-4">Ez-Travels</h1>
+      <h1 className="text-2xl font-bold mb-4">EzTravels</h1>
 
       <h2 className="text-xl font-bold mb-6">Your Trip</h2>
 

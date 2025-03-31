@@ -1,10 +1,22 @@
-import React from "react";
-import { Search, ArrowRight } from "lucide-react";
-import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
+'use client';
+
+import React, { useState } from 'react';
+import { Search, ArrowRight } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import Navbar from './components/Navbar';
+import Footer from './components/Footer';
 
 // Main Landing Page Component
 const EzTravelLanding = () => {
+  const [destination, setDestination] = useState('');
+  const router = useRouter();
+
+  const handlePlanJourney = () => {
+    if (destination.trim()) {
+      router.push(`/book?source=${encodeURIComponent(destination.trim())}`);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
       <Navbar />
@@ -30,9 +42,19 @@ const EzTravelLanding = () => {
                     type="text"
                     placeholder="Where are you going?"
                     className="w-full py-2 focus:outline-none"
+                    value={destination}
+                    onChange={(e) => setDestination(e.target.value)}
+                    onKeyPress={(e) => {
+                      if (e.key === 'Enter') {
+                        handlePlanJourney();
+                      }
+                    }}
                   />
                 </div>
-                <button className="w-full py-3 bg-blue-600 cursor-pointer text-white rounded-md font-medium text-lg hover:bg-blue-700 transition-colors flex items-center justify-center">
+                <button
+                  className="w-full py-3 bg-blue-600 text-white cursor-pointer rounded-md font-medium text-lg hover:bg-blue-700 transition-colors flex items-center justify-center"
+                  onClick={handlePlanJourney}
+                >
                   Plan My Journey
                   <ArrowRight size={18} className="ml-2" />
                 </button>
