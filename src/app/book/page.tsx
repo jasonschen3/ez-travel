@@ -12,18 +12,18 @@ export default function BookTrip() {
   });
 
   useEffect(() => {
-    // Get and decode the source from URL query
+    // Get and decode the destination from URL query
     const searchParams = new URLSearchParams(window.location.search);
-    const source = searchParams.get("source");
-    if (source) {
+    const destination = searchParams.get("destination");
+    if (destination) {
       try {
-        const decodedSource = decodeURIComponent(source);
+        const decodedDestination = decodeURIComponent(destination);
         setBookingData((prev) => ({
           ...prev,
-          destination: decodedSource,
+          destination: decodedDestination,
         }));
       } catch (error) {
-        console.error("Error decoding source:", error);
+        console.error("Error decoding destination:", error);
       }
     }
   }, []);

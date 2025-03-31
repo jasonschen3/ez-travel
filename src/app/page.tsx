@@ -13,7 +13,7 @@ const EzTravelLanding = () => {
 
   const handlePlanJourney = () => {
     if (destination.trim()) {
-      router.push(`/book?source=${encodeURIComponent(destination.trim())}`);
+      router.push(`/book?destination=${encodeURIComponent(destination.trim())}`);
     }
   };
 
