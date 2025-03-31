@@ -6,7 +6,7 @@ const Footer = () => {
       <div className="max-w-6xl mx-auto">
         <div className="flex flex-col md:flex-row justify-between pb-8 border-b border-gray-200">
           <div className="mb-6 md:mb-0">
-            <span className="text-xl font-bold text-blue-600">EzTravel</span>
+            <span className="text-xl font-bold text-blue-600">EzTravels</span>
             <p className="mt-2 text-gray-600 max-w-xs">Making complex travel simple with intelligent multi-modal connections.</p>
           </div>
           
@@ -41,7 +41,7 @@ const Footer = () => {
         </div>
         
         <div className="pt-6 flex flex-col md:flex-row items-center justify-between">
-          <p className="text-gray-500 text-sm mb-4 md:mb-0">© 2025 EzTravel. All rights reserved.</p>
+          <p className="text-gray-500 text-sm mb-4 md:mb-0">© 2025 EzTravels. All rights reserved.</p>
           <div className="flex space-x-6">
             <a href="#" className="text-gray-400 hover:text-blue-600">Terms</a>
             <a href="#" className="text-gray-400 hover:text-blue-600">Privacy</a>

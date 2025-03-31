@@ -46,7 +46,7 @@ const EzTravelLanding = () => {
       <section className="px-6 py-16 bg-white">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-3xl font-bold text-center mb-12">
-            Why Choose EzTravel
+            Why Choose EzTravels
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
