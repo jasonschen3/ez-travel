@@ -1,19 +1,22 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import { Search, ArrowRight } from 'lucide-react';
-import { useRouter } from 'next/navigation';
-import Navbar from './components/Navbar';
-import Footer from './components/Footer';
+import React, { useState } from "react";
+import { Search, ArrowRight } from "lucide-react";
+import { useRouter } from "next/navigation";
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
+import BlueButton from "./components/BlueButton";
 
 // Main Landing Page Component
 const EzTravelLanding = () => {
-  const [destination, setDestination] = useState('');
+  const [destination, setDestination] = useState("");
   const router = useRouter();
 
   const handlePlanJourney = () => {
     if (destination.trim()) {
-      router.push(`/book?destination=${encodeURIComponent(destination.trim())}`);
+      router.push(
+        `/book?destination=${encodeURIComponent(destination.trim())}`,
+      );
     }
   };
 
@@ -22,19 +25,19 @@ const EzTravelLanding = () => {
       <Navbar />
 
       {/* Hero Section */}
-      <section className="px-6 py-16 md:py-24 max-w-6xl mx-auto">
+      <section className="mx-auto max-w-6xl px-6 py-16 md:py-24">
         <div className="flex flex-col items-center">
-          <div className="w-full max-w-lg text-center mb-10">
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+          <div className="mb-10 w-full max-w-lg text-center">
+            <h1 className="mb-4 text-4xl font-bold text-gray-900 md:text-5xl">
               Your Journey, <span className="text-blue-600">Simplified</span>
             </h1>
-            <p className="text-xl text-gray-600 mb-8">
+            <p className="mb-8 text-xl text-gray-600">
               Book multi-modal travel in one place. All transportation options
               connected seamlessly for your perfect trip.
             </p>
 
             {/* Search Box - Main CTA */}
-            <div className="bg-white p-6 rounded-lg shadow-lg">
+            <div className="rounded-lg bg-white p-6 shadow-lg">
               <div className="flex flex-col space-y-4">
                 <div className="flex items-center space-x-2">
                   <Search className="text-gray-400" size={20} />
@@ -45,19 +48,15 @@ const EzTravelLanding = () => {
                     value={destination}
                     onChange={(e) => setDestination(e.target.value)}
                     onKeyPress={(e) => {
-                      if (e.key === 'Enter') {
+                      if (e.key === "Enter") {
                         handlePlanJourney();
                       }
                     }}
                   />
                 </div>
-                <button
-                  className="w-full py-3 bg-blue-600 text-white cursor-pointer rounded-md font-medium text-lg hover:bg-blue-700 transition-colors flex items-center justify-center"
-                  onClick={handlePlanJourney}
-                >
+                <BlueButton onClick={handlePlanJourney}>
                   Plan My Journey
-                  <ArrowRight size={18} className="ml-2" />
-                </button>
+                </BlueButton>
               </div>
             </div>
           </div>
@@ -65,29 +64,29 @@ const EzTravelLanding = () => {
       </section>
 
       {/* Features Section */}
-      <section className="px-6 py-16 bg-white">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-12">
+      <section className="bg-white px-6 py-16">
+        <div className="mx-auto max-w-6xl">
+          <h2 className="mb-12 text-center text-3xl font-bold">
             Why Choose EzTravels
           </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="p-6 rounded-lg border border-gray-100 hover:shadow-md transition-shadow">
-              <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-4">
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+            <div className="rounded-lg border border-gray-100 p-6 transition-shadow hover:shadow-md">
+              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-blue-100">
                 <Search className="text-blue-600" size={24} />
               </div>
-              <h3 className="text-xl font-semibold mb-2">All-in-One Search</h3>
+              <h3 className="mb-2 text-xl font-semibold">All-in-One Search</h3>
               <p className="text-gray-600">
                 Find and compare all travel options in seconds with our powerful
                 search engine.
               </p>
             </div>
 
-            <div className="p-6 rounded-lg border border-gray-100 hover:shadow-md transition-shadow">
-              <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-4">
+            <div className="rounded-lg border border-gray-100 p-6 transition-shadow hover:shadow-md">
+              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-blue-100">
                 <ArrowRight className="text-blue-600" size={24} />
               </div>
-              <h3 className="text-xl font-semibold mb-2">
+              <h3 className="mb-2 text-xl font-semibold">
                 Seamless Connections
               </h3>
               <p className="text-gray-600">
@@ -96,11 +95,11 @@ const EzTravelLanding = () => {
               </p>
             </div>
 
-            <div className="p-6 rounded-lg border border-gray-100 hover:shadow-md transition-shadow">
-              <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-4">
+            <div className="rounded-lg border border-gray-100 p-6 transition-shadow hover:shadow-md">
+              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-blue-100">
                 <Search className="text-blue-600" size={24} />
               </div>
-              <h3 className="text-xl font-semibold mb-2">
+              <h3 className="mb-2 text-xl font-semibold">
                 One Ticket Solution
               </h3>
               <p className="text-gray-600">

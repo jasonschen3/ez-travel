@@ -1,5 +1,8 @@
 "use client";
 import { useRouter } from "next/navigation";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
+import BlueButton from "../components/BlueButton";
 
 export default function TripDetails() {
   const router = useRouter();
@@ -8,69 +11,76 @@ export default function TripDetails() {
     router.push("/payment");
   };
   return (
-    <div className="max-w-md mx-auto p-6 border-2 border-black m-4">
-      <h1 className="text-2xl font-bold mb-4">EzTravels</h1>
+    <div className="flex min-h-screen flex-col">
+      <Navbar />
+      <div className="flex flex-1 items-center justify-center bg-gray-50 p-6">
+        <div className="w-full max-w-md rounded-lg bg-white p-8 shadow-md">
+          <h1 className="mb-6 text-2xl font-bold text-gray-900">
+            Your Trip Details
+          </h1>
 
-      <h2 className="text-xl font-bold mb-6">Your Trip</h2>
+          <div className="space-y-6">
+            <div>
+              {/* Metz Stop */}
+              <div className="flex flex-col">
+                <div className="font-bold text-gray-900">Metz 10:00 am</div>
+                <div className="ml-2 border-l-2 border-gray-300 py-1 pl-4">
+                  <div className="text-gray-700">Train on TGV</div>
+                  <div className="text-gray-600">1 hr 15 min</div>
+                  <div className="text-gray-900">$15.12</div>
+                </div>
+              </div>
 
-      <div className="space-y-6">
-        {/* Metz Stop */}
-        <div className="flex flex-col">
-          <div className="font-bold">Metz 10:00 am</div>
-          <div className="border-l-2 border-black pl-4 ml-2 py-1">
-            <div>Train on TGV</div>
-            <div>1 hr 15 min</div>
-            <div>$15.12</div>
+              {/* Paris Stop */}
+              <div className="flex flex-col">
+                <div className="font-bold text-gray-900">
+                  Paris CDG 11:15 am
+                </div>
+                <div className="ml-2 border-l-2 border-gray-300 py-1 pl-4">
+                  <div className="text-gray-700">Flight on Ryanair</div>
+                  <div className="text-gray-600">2 hr</div>
+                  <div className="text-gray-900">$35.12</div>
+                </div>
+              </div>
+
+              {/* Madrid Airport Stop */}
+              <div className="flex flex-col">
+                <div className="font-bold text-gray-900">
+                  Madrid Airport 12:15 pm
+                </div>
+                <div className="ml-2 border-l-2 border-gray-300 py-1 pl-4">
+                  <div className="text-gray-700">Uber</div>
+                  <div className="text-gray-600">15 min</div>
+                  <div className="text-gray-900">$8.12</div>
+                </div>
+              </div>
+
+              {/* Madrid Hotel Stop */}
+              <div className="flex flex-col">
+                <div className="font-bold text-gray-900">
+                  Madrid Hotel 12:30 pm
+                </div>
+              </div>
+            </div>
+
+            {/* Trip Summary */}
+            <div className="space-y-2 border-t border-gray-200 pt-6">
+              <div className="font-bold text-gray-900">Total Cost: $91</div>
+              <div className="font-bold text-gray-900">
+                Total Time: 2hr 30min
+              </div>
+            </div>
+
+            {/* Change Trip Text */}
+            <div className="mt-4 text-sm text-gray-600">
+              Reply to the original email to make trip changes
+            </div>
+
+            <BlueButton onClick={handlePayment}>Continue to Payment</BlueButton>
           </div>
         </div>
-
-        {/* Paris Stop */}
-        <div className="flex flex-col">
-          <div className="font-bold">Paris CDG 11:15 am</div>
-          <div className="border-l-2 border-black pl-4 ml-2 py-1">
-            <div>Flight on Ryanair</div>
-            <div>2 hr</div>
-            <div>$35.12</div>
-          </div>
-        </div>
-
-        {/* Madrid Airport Stop */}
-        <div className="flex flex-col">
-          <div className="font-bold">Madrid Airport 12:15 pm</div>
-          <div className="border-l-2 border-black pl-4 ml-2 py-1">
-            <div>Uber</div>
-            <div>15 min</div>
-            <div>$8.12</div>
-          </div>
-        </div>
-
-        {/* Madrid Hotel Stop */}
-        <div className="flex flex-col">
-          <div className="font-bold">Madrid Hotel 12:30 pm</div>
-        </div>
-
-        {/* Trip Summary */}
-        <div className="mt-8 space-y-2">
-          <div className="font-bold">Total Cost: $91</div>
-          <div className="font-bold">Total Time: 2hr 30min</div>
-        </div>
-
-        {/* Change Trip Button */}
-        <button
-          className="w-full border-2 border-black py-2 px-4 mt-4 text-center font-bold"
-          onClick={() => {
-            /* Handle trip change */
-          }}
-        >
-          Change Trip
-        </button>
-        <button
-          className="w-full bg-blue-600 text-white py-2 px-4 text-center font-bold hover:bg-blue-700"
-          onClick={handlePayment}
-        >
-          Continue to Payment
-        </button>
       </div>
+      <Footer />
     </div>
   );
 }
