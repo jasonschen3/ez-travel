@@ -5,11 +5,6 @@ import Footer from "../components/Footer";
 import BlueButton from "../components/BlueButton";
 
 export default function TripDetails() {
-  const router = useRouter();
-
-  const handlePayment = () => {
-    router.push("/payment");
-  };
   return (
     <div className="flex min-h-screen flex-col">
       <Navbar />
@@ -76,7 +71,14 @@ export default function TripDetails() {
               Reply to the original email to make trip changes
             </div>
 
-            <BlueButton onClick={handlePayment}>Continue to Payment</BlueButton>
+            <BlueButton
+              onClick={() =>
+                (window.location.href =
+                  "https://buy.stripe.com/test_aEU6qe9J50xba9a5kk")
+              }
+            >
+              Continue to Payment
+            </BlueButton>
           </div>
         </div>
       </div>
