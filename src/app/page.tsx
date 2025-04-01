@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Search, ArrowRight } from "lucide-react";
+import { Search, Sparkles, Wallet, Route } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
@@ -29,11 +29,10 @@ const EzTravelLanding = () => {
         <div className="flex flex-col items-center">
           <div className="mb-10 w-full max-w-lg text-center">
             <h1 className="mb-4 text-4xl font-bold text-gray-900 md:text-5xl">
-              Your Journey, <span className="text-blue-600">Simplified</span>
+              <span className="text-blue-600">AI-Powered</span> Travel Itineraries
             </h1>
             <p className="mb-8 text-xl text-gray-600">
-              Book multi-modal travel in one place. All transportation options
-              connected seamlessly for your perfect trip.
+              Get the most cost-effective travel plans combining flights, trains, ferries, and more. Our AI ensures you get the best experience at the best price.
             </p>
 
             {/* Search Box - Main CTA */}
@@ -43,7 +42,7 @@ const EzTravelLanding = () => {
                   <Search className="text-gray-400" size={20} />
                   <input
                     type="text"
-                    placeholder="Where are you going?"
+                    placeholder="Where do you want to go?"
                     className="w-full py-2 focus:outline-none"
                     value={destination}
                     onChange={(e) => setDestination(e.target.value)}
@@ -55,7 +54,7 @@ const EzTravelLanding = () => {
                   />
                 </div>
                 <BlueButton onClick={handlePlanJourney}>
-                  Plan My Journey
+                  Generate My Itinerary
                 </BlueButton>
               </div>
             </div>
@@ -73,38 +72,31 @@ const EzTravelLanding = () => {
           <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
             <div className="rounded-lg border border-gray-100 p-6 transition-shadow hover:shadow-md">
               <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-blue-100">
-                <Search className="text-blue-600" size={24} />
+                <Sparkles className="text-blue-600" size={24} />
               </div>
-              <h3 className="mb-2 text-xl font-semibold">All-in-One Search</h3>
+              <h3 className="mb-2 text-xl font-semibold">AI-Powered Planning</h3>
               <p className="text-gray-600">
-                Find and compare all travel options in seconds with our powerful
-                search engine.
+                Our advanced AI analyzes millions of options to create the perfect itinerary for your journey.
               </p>
             </div>
 
             <div className="rounded-lg border border-gray-100 p-6 transition-shadow hover:shadow-md">
               <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-blue-100">
-                <ArrowRight className="text-blue-600" size={24} />
+                <Wallet className="text-blue-600" size={24} />
               </div>
-              <h3 className="mb-2 text-xl font-semibold">
-                Seamless Connections
-              </h3>
+              <h3 className="mb-2 text-xl font-semibold">Best Price Guaranteed</h3>
               <p className="text-gray-600">
-                We optimize your journey by connecting different transportation
-                modes perfectly.
+                We combine all transportation modes to find the most cost-effective options for your trip.
               </p>
             </div>
 
             <div className="rounded-lg border border-gray-100 p-6 transition-shadow hover:shadow-md">
               <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-blue-100">
-                <Search className="text-blue-600" size={24} />
+                <Route className="text-blue-600" size={24} />
               </div>
-              <h3 className="mb-2 text-xl font-semibold">
-                One Ticket Solution
-              </h3>
+              <h3 className="mb-2 text-xl font-semibold">Multi-Modal Travel</h3>
               <p className="text-gray-600">
-                Book everything through a single platform and manage all your
-                travel documents in one place.
+                Seamlessly combine flights, trains, ferries, and more for the most efficient journey.
               </p>
             </div>
           </div>
