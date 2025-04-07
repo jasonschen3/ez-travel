@@ -1,8 +1,7 @@
 "use client";
 import { useState } from "react";
-import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import BlueButton from "../components/BlueButton";
+import Navbar from "../components/Navbar";
 import TicketView from "../components/TicketView";
 
 export default function ViewTrip() {
@@ -32,12 +31,14 @@ export default function ViewTrip() {
                   <div className="text-gray-600">1 hr 15 min</div>
                   <div className="text-gray-900">$15.12</div>
                   <button
-                    onClick={() => setSelectedTicket({
-                      type: "Train",
-                      image: "/ticket_1.png",
-                      from: "Metz",
-                      to: "Paris CDG"
-                    })}
+                    onClick={() =>
+                      setSelectedTicket({
+                        type: "Train",
+                        image: "/ticket_1.png",
+                        from: "Metz",
+                        to: "Paris CDG",
+                      })
+                    }
                     className="mt-2 text-sm text-blue-600 hover:text-blue-800 cursor-pointer"
                   >
                     View Ticket
@@ -55,12 +56,14 @@ export default function ViewTrip() {
                   <div className="text-gray-600">2 hr</div>
                   <div className="text-gray-900">$35.12</div>
                   <button
-                    onClick={() => setSelectedTicket({
-                      type: "Flight",
-                      image: "/ticket_2.png",
-                      from: "Paris CDG",
-                      to: "Madrid"
-                    })}
+                    onClick={() =>
+                      setSelectedTicket({
+                        type: "Flight",
+                        image: "/ticket_2.png",
+                        from: "Paris CDG",
+                        to: "Madrid",
+                      })
+                    }
                     className="mt-2 text-sm text-blue-600 hover:text-blue-800 cursor-pointer"
                   >
                     View Ticket
@@ -87,12 +90,11 @@ export default function ViewTrip() {
                 </div>
               </div>
             </div>
-
           </div>
 
           <div className="mt-4 text-sm text-gray-600">
-              Reply to the original email with any questions
-            </div>
+            Reply to the original email with any questions
+          </div>
         </div>
       </div>
       <Footer />

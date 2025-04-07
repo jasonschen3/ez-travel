@@ -52,7 +52,9 @@ async function sendEmail(data: BookingData) {
       <h2>New Booking Request</h2>
       <p><strong>Source:</strong> ${data.source}</p>
       <p><strong>Destination:</strong> ${data.destination}</p>
-      <p><strong>Departure Date/Time:</strong> ${new Date(data.dateTime).toLocaleString()}</p>
+      <p><strong>Departure Date/Time:</strong> ${new Date(
+        data.dateTime
+      ).toLocaleString()}</p>
       <p><strong>Customer Email:</strong> ${data.email}</p>
     `,
   };
@@ -72,10 +74,7 @@ export async function POST(request: Request) {
     const errors = validateBookingData(data);
 
     if (errors.length > 0) {
-      return NextResponse.json(
-        { success: false, errors },
-        { status: 400 }
-      );
+      return NextResponse.json({ success: false, errors }, { status: 400 });
     }
 
     // Send email with booking data
@@ -95,4 +94,4 @@ export async function POST(request: Request) {
       { status: 500 }
     );
   }
-} 
+}
