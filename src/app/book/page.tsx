@@ -1,10 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
+import { useEffect, useState } from "react";
 import BlueButton from "../components/BlueButton";
+import Footer from "../components/Footer";
+import Navbar from "../components/Navbar";
 
 export default function BookTrip() {
   const router = useRouter();
@@ -86,12 +86,17 @@ export default function BookTrip() {
       <Navbar />
       <div className="flex flex-1 items-center justify-center bg-gray-50 p-6">
         <div className="w-full max-w-md rounded-lg bg-white p-8 shadow-md">
-          <h1 className="mb-6 text-2xl font-bold text-gray-900">Book Your Journey</h1>
+          <h1 className="mb-6 text-2xl font-bold text-gray-900">
+            Book Your Journey
+          </h1>
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-4">
               <div>
-                <label htmlFor="source" className="block text-sm font-medium text-gray-700">
+                <label
+                  htmlFor="source"
+                  className="block text-sm font-medium text-gray-700"
+                >
                   From
                 </label>
                 <input
@@ -106,7 +111,10 @@ export default function BookTrip() {
               </div>
 
               <div>
-                <label htmlFor="destination" className="block text-sm font-medium text-gray-700">
+                <label
+                  htmlFor="destination"
+                  className="block text-sm font-medium text-gray-700"
+                >
                   To
                 </label>
                 <input
@@ -121,7 +129,10 @@ export default function BookTrip() {
               </div>
 
               <div>
-                <label htmlFor="dateTime" className="block text-sm font-medium text-gray-700">
+                <label
+                  htmlFor="dateTime"
+                  className="block text-sm font-medium text-gray-700"
+                >
                   Departure Date & Time
                 </label>
                 <input
@@ -136,7 +147,10 @@ export default function BookTrip() {
               </div>
 
               <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                <label
+                  htmlFor="email"
+                  className="block text-sm font-medium text-gray-700"
+                >
                   Email
                 </label>
                 <input

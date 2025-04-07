@@ -2,6 +2,7 @@
   "name": "ez-travel",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -11,6 +12,7 @@
     "format:check": "prettier --check ."
   },
   "dependencies": {
+    "@prisma/client": "^6.5.0",
     "@stripe/stripe-js": "^6.1.0",
     "@types/nodemailer": "^6.4.17",
     "lucide-react": "^0.485.0",
