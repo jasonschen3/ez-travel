@@ -1,40 +1,43 @@
 "use client";
 
+import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
-import BlueButton from "../components/BlueButton";
 
-export default function Load() {
+export default function LoadPage() {
   const router = useRouter();
 
+  useEffect(() => {
+    async function planTrip() {
+      const res = await fetch("/api/plan", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          source: "Metz",
+          destination: "Madrid",
+          dateTime: "April 8, 2025 10:00 AM",
+        }),
+      });
+
+      const data = await res.json();
+
+      if (data.success) {
+        // Pass to /view-trip using search param
+        router.push(
+          `/view-trip?data=${encodeURIComponent(
+            JSON.stringify(data.itinerary)
+          )}`
+        );
+      } else {
+        console.error("Failed to plan trip", data.error);
+      }
+    }
+
+    planTrip();
+  }, [router]);
+
   return (
-    <div className="flex min-h-screen flex-col">
-      <Navbar />
-      <div className="flex flex-1 items-center justify-center bg-gray-50 p-6">
-        <div className="w-full max-w-md rounded-lg bg-white p-8 shadow-md">
-          <h1 className="mb-6 text-2xl font-bold text-gray-900">Your Journey is Being Planned</h1>
-          
-          <div className="space-y-6">
-            <div className="space-y-4">
-              <p className="text-gray-700">
-                Our team is carefully analyzing the best routes for your journey. This planning process typically takes 2-3 hours.
-              </p>
-              <p className="text-gray-700">
-                Once your personalized itinerary is ready, we'll send it directly to your email address.
-              </p>
-              <p className="text-sm text-gray-500 italic">
-                Feel free to close this page and wait for our email notification.
-              </p>
-            </div>
-            
-            <BlueButton onClick={() => router.push("/")}>
-              Return to Home
-            </BlueButton>
-          </div>
-        </div>
-      </div>
-      <Footer />
+    <div className="flex h-screen items-center justify-center">
+      <p className="text-lg font-semibold">Planning your trip...</p>
     </div>
   );
 }
