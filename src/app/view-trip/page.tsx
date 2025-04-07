@@ -1,16 +1,62 @@
 "use client";
-import { useState } from "react";
-import Footer from "../components/Footer";
+
+import { useSearchParams } from "next/navigation";
+import { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 import TicketView from "../components/TicketView";
+import { encode } from "punycode";
+
+interface Step {
+  title: string;
+  details: string[];
+}
+
+interface Itinerary {
+  steps: Step[];
+  totalCost: string;
+  totalTime: string;
+}
 
 export default function ViewTrip() {
-  const [selectedTicket, setSelectedTicket] = useState<{
-    type: string;
-    image: string;
-    from: string;
-    to: string;
-  } | null>(null);
+  const searchParams = useSearchParams();
+  const [selectedTicket, setSelectedTicket] = useState<any>(null);
+  const [itinerary, setItinerary] = useState<Itinerary | null>(null);
+
+  useEffect(() => {
+    const source = searchParams.get("source");
+    const destination = searchParams.get("destination");
+    const dateTime = searchParams.get("dateTime");
+
+    async function planTrip() {
+      console.log("planning");
+      try {
+        const response = await fetch("/api/plan", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            source: source,
+            destination: destination,
+            dateTime: dateTime,
+          }),
+        });
+        const data = await response.json();
+        console.log(data);
+        setItinerary(data.itinerary);
+      } catch (e) {
+        console.error("Failed to parse itinerary", e);
+      }
+    }
+    planTrip();
+  }, [searchParams]);
+
+  if (!itinerary) {
+    return (
+      <div className="flex h-screen items-center justify-center">
+        <p className="text-lg font-semibold">Loading itinerary...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -22,73 +68,38 @@ export default function ViewTrip() {
           </h1>
 
           <div className="space-y-6">
+            {itinerary.steps.map((step: any, index: number) => (
+              <div key={index} className="flex flex-col">
+                <div className="font-bold text-gray-900">
+                  {step.from} → {step.to}
+                </div>
+                <div className="ml-2 border-l-2 border-gray-300 py-1 pl-4 text-gray-700 space-y-1">
+                  <div>Mode: {step.mode}</div>
+                  <div>
+                    {/* Format departure date and time separately */}
+                    <div>
+                      Departure Date:{" "}
+                      {new Date(step.departure).toLocaleDateString()}
+                    </div>
+                    <div>
+                      Departure Time:{" "}
+                      {new Date(step.departure).toLocaleTimeString()}
+                    </div>
+                  </div>
+                  <div>Arrival: {new Date(step.arrival).toLocaleString()}</div>
+                  <div>Duration: {step.duration} </div>
+                  <div>Cost: €{step.cost}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-6 border-t border-gray-200 pt-4 space-y-1 text-sm text-gray-700">
             <div>
-              {/* Metz Stop */}
-              <div className="flex flex-col">
-                <div className="font-bold text-gray-900">Metz 10:00 am</div>
-                <div className="ml-2 border-l-2 border-gray-300 py-1 pl-4">
-                  <div className="text-gray-700">Train on TGV</div>
-                  <div className="text-gray-600">1 hr 15 min</div>
-                  <div className="text-gray-900">$15.12</div>
-                  <button
-                    onClick={() =>
-                      setSelectedTicket({
-                        type: "Train",
-                        image: "/ticket_1.png",
-                        from: "Metz",
-                        to: "Paris CDG",
-                      })
-                    }
-                    className="mt-2 text-sm text-blue-600 hover:text-blue-800 cursor-pointer"
-                  >
-                    View Ticket
-                  </button>
-                </div>
-              </div>
-
-              {/* Paris Stop */}
-              <div className="flex flex-col">
-                <div className="font-bold text-gray-900">
-                  Paris CDG 11:15 am
-                </div>
-                <div className="ml-2 border-l-2 border-gray-300 py-1 pl-4">
-                  <div className="text-gray-700">Flight on Ryanair</div>
-                  <div className="text-gray-600">2 hr</div>
-                  <div className="text-gray-900">$35.12</div>
-                  <button
-                    onClick={() =>
-                      setSelectedTicket({
-                        type: "Flight",
-                        image: "/ticket_2.png",
-                        from: "Paris CDG",
-                        to: "Madrid",
-                      })
-                    }
-                    className="mt-2 text-sm text-blue-600 hover:text-blue-800 cursor-pointer"
-                  >
-                    View Ticket
-                  </button>
-                </div>
-              </div>
-
-              {/* Madrid Airport Stop */}
-              <div className="flex flex-col">
-                <div className="font-bold text-gray-900">
-                  Madrid Airport 12:15 pm
-                </div>
-                <div className="ml-2 border-l-2 border-gray-300 py-1 pl-4">
-                  <div className="text-gray-700">Uber</div>
-                  <div className="text-gray-600">15 min</div>
-                  <div className="text-gray-900">$8.12</div>
-                </div>
-              </div>
-
-              {/* Madrid Hotel Stop */}
-              <div className="flex flex-col">
-                <div className="font-bold text-gray-900">
-                  Madrid Hotel 12:30 pm
-                </div>
-              </div>
+              <strong>Total Cost:</strong> {itinerary.totalCost}
+            </div>
+            <div>
+              <strong>Total Time:</strong> {itinerary.totalTime}
             </div>
           </div>
 

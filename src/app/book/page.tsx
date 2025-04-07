@@ -44,38 +44,31 @@ export default function BookTrip() {
     setErrors([]);
   };
 
+  // Auto generates
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setErrors([]);
     setIsSubmitting(true);
-
-    const formData = new FormData(e.currentTarget);
-    const data = {
-      source: formData.get("source") as string,
-      destination: formData.get("destination") as string,
-      dateTime: formData.get("dateTime") as string,
-      email: formData.get("email") as string,
-    };
-
     try {
-      const response = await fetch("/api/book", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
+      const formData = new FormData(e.currentTarget);
+      const data = {
+        source: formData.get("source") as string,
+        destination: formData.get("destination") as string,
+        dateTime: formData.get("dateTime") as string,
+        email: formData.get("email") as string,
+      };
+
+      // Pass booking data to view-trip page using URL parameters
+      const searchParams = new URLSearchParams({
+        source: data.source,
+        destination: data.destination,
+        dateTime: data.dateTime,
       });
 
-      const result = await response.json();
-
-      if (!response.ok) {
-        setErrors(result.errors || ["Failed to submit booking"]);
-        return;
-      }
-
-      router.push("/load");
+      router.push(`/view-trip?${searchParams.toString()}`);
     } catch (error) {
-      setErrors(["An error occurred while submitting your booking"]);
+      console.log("Error submitting form", error);
+      setErrors(["An error occurred while booking your trip"]);
     } finally {
       setIsSubmitting(false);
     }
