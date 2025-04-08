@@ -20,7 +20,29 @@ export async function POST(request: Request) {
       );
     }
 
-    const userPrompt = `Generate a trip from ${source} to ${destination} starting on ${dateTime}, using TGV, Ryanair, and Uber (if needed). Show times and prices in a step-by-step format. Return the response as a JSON object with fields: steps (array), totalCost, totalTime.`;
+    const userPrompt = `Generate a trip from ${source} to ${destination} starting on ${dateTime}, using TGV, Ryanair, and Uber (if needed).
+      Follow these exact rules:
+      1. Always check train connections first
+      2. Only suggest flights for distances over 500km
+      3. Include Uber only for local transport under 30km
+      4. Format prices in EUR
+      5. Use 24-hour time format
+      Return the response as a JSON object with exactly this structure:
+      {
+        "steps": [
+          {
+            "mode": "string",
+            "from": "string",
+            "to": "string",
+            "departure": "ISO datetime",
+            "arrival": "ISO datetime",
+            "duration": "string",
+            "cost": number
+          }
+        ],
+        "totalCost": "string",
+        "totalTime": "string"
+      }`;
 
     const response = await openai.chat.completions.create({
       model: "gpt-4o",
