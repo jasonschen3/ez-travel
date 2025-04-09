@@ -1,5 +1,7 @@
 "use client";
 
+import { Suspense } from "react";
+
 import { useSearchParams } from "next/navigation";
 import { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
@@ -7,9 +9,6 @@ import Footer from "../components/Footer";
 import TicketView from "../components/TicketView";
 
 import BlueButton from "../components/BlueButton";
-
-import { loadStripe } from "@stripe/stripe-js";
-const stripePromise = loadStripe(process.env.STRIPE_PUBLIC!);
 
 interface Step {
   from: string;
@@ -27,7 +26,7 @@ interface Itinerary {
   totalTime: string;
 }
 
-export default function ViewTrip() {
+function ViewTrip() {
   const searchParams = useSearchParams();
   const [selectedTicket, setSelectedTicket] = useState<any>(null);
   const [itinerary, setItinerary] = useState<Itinerary | null>(null);
@@ -158,5 +157,19 @@ export default function ViewTrip() {
         to={selectedTicket?.to || ""}
       />
     </div>
+  );
+}
+
+export default function ViewPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex h-screen items-center justify-center">
+          Loading...
+        </div>
+      }
+    >
+      <ViewTrip />
+    </Suspense>
   );
 }
