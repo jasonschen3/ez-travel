@@ -6,6 +6,11 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import TicketView from "../components/TicketView";
 
+import BlueButton from "../components/BlueButton";
+
+import { loadStripe } from "@stripe/stripe-js";
+const stripePromise = loadStripe(process.env.STRIPE_PUBLIC!);
+
 interface Step {
   from: string;
   to: string;
@@ -65,8 +70,6 @@ export default function ViewTrip() {
     window.location.href = "/book";
   };
 
-  const handleConfirm = () => {};
-
   if (!itinerary) {
     return (
       <div className="flex h-screen items-center justify-center">
@@ -121,21 +124,23 @@ export default function ViewTrip() {
             Above will be the approximation of your ideal itinerary
           </div>
           <div className="mt-6 flex space-x-4">
-            <button
-              onClick={handleConfirm}
-              className="flex-1 bg-green-600 hover:bg-green-700"
+            <BlueButton
+              onClick={() =>
+                (window.location.href =
+                  "https://buy.stripe.com/test_3cs8xX3dR0Q59igbII")
+              }
             >
-              Confirm Booking
-            </button>
+              Confirm and Pay
+            </BlueButton>
             <button
               onClick={handleRegenerate}
-              className="flex-1 bg-blue-600 hover:bg-blue-700"
+              className="flex-1 rounded-lg px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white"
             >
               Regenerate
             </button>
             <button
               onClick={handleCancel}
-              className="flex-1 bg-gray-600 hover:bg-gray-700"
+              className="flex-1 rounded-lg px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white"
             >
               Cancel
             </button>

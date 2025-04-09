@@ -1,10 +1,18 @@
 "use client";
-import { useRouter } from "next/navigation";
+import { useState } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import BlueButton from "../components/BlueButton";
+import TicketView from "../components/TicketView";
 
-export default function TripDetails() {
+export default function ViewTrip() {
+  const [selectedTicket, setSelectedTicket] = useState<{
+    type: string;
+    image: string;
+    from: string;
+    to: string;
+  } | null>(null);
+
   return (
     <div className="flex min-h-screen flex-col">
       <Navbar />
@@ -23,6 +31,19 @@ export default function TripDetails() {
                   <div className="text-gray-700">Train on TGV</div>
                   <div className="text-gray-600">1 hr 15 min</div>
                   <div className="text-gray-900">$15.12</div>
+                  <button
+                    onClick={() =>
+                      setSelectedTicket({
+                        type: "Train",
+                        image: "/ticket_1.png",
+                        from: "Metz",
+                        to: "Paris CDG",
+                      })
+                    }
+                    className="mt-2 text-sm text-blue-600 hover:text-blue-800 cursor-pointer"
+                  >
+                    View Ticket
+                  </button>
                 </div>
               </div>
 
@@ -35,6 +56,19 @@ export default function TripDetails() {
                   <div className="text-gray-700">Flight on Ryanair</div>
                   <div className="text-gray-600">2 hr</div>
                   <div className="text-gray-900">$35.12</div>
+                  <button
+                    onClick={() =>
+                      setSelectedTicket({
+                        type: "Flight",
+                        image: "/ticket_2.png",
+                        from: "Paris CDG",
+                        to: "Madrid",
+                      })
+                    }
+                    className="mt-2 text-sm text-blue-600 hover:text-blue-800 cursor-pointer"
+                  >
+                    View Ticket
+                  </button>
                 </div>
               </div>
 
@@ -57,32 +91,23 @@ export default function TripDetails() {
                 </div>
               </div>
             </div>
+          </div>
 
-            {/* Trip Summary */}
-            <div className="space-y-2 border-t border-gray-200 pt-6">
-              <div className="font-bold text-gray-900">Total Cost: $91</div>
-              <div className="font-bold text-gray-900">
-                Total Time: 2hr 30min
-              </div>
-            </div>
-
-            {/* Change Trip Text */}
-            <div className="mt-4 text-sm text-gray-600">
-              Reply to the original email to make trip changes
-            </div>
-
-            <BlueButton
-              onClick={() =>
-                (window.location.href =
-                  "https://buy.stripe.com/test_aEU6qe9J50xba9a5kk")
-              }
-            >
-              Continue to Payment
-            </BlueButton>
+          <div className="mt-4 text-sm text-gray-600">
+            Reply to the original email with any questions
           </div>
         </div>
       </div>
       <Footer />
+
+      <TicketView
+        isOpen={selectedTicket !== null}
+        onClose={() => setSelectedTicket(null)}
+        ticketImage={selectedTicket?.image || ""}
+        ticketType={selectedTicket?.type || ""}
+        from={selectedTicket?.from || ""}
+        to={selectedTicket?.to || ""}
+      />
     </div>
   );
 }
