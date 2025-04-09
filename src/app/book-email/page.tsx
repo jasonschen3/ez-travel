@@ -1,12 +1,12 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import BlueButton from "../components/BlueButton";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 
-export default function BookEmail() {
+function EmailForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [email, setEmail] = useState("");
@@ -97,5 +97,34 @@ export default function BookEmail() {
       </div>
       <Footer />
     </div>
+  );
+}
+
+function LoadingState() {
+  return (
+    <div className="flex min-h-screen flex-col">
+      <Navbar />
+      <div className="flex flex-1 items-center justify-center bg-gray-50 p-6">
+        <div className="w-full max-w-md rounded-lg bg-white p-8 shadow-md">
+          <div className="animate-pulse">
+            <div className="h-8 w-3/4 bg-gray-200 rounded mb-6"></div>
+            <div className="h-4 w-full bg-gray-200 rounded mb-6"></div>
+            <div className="space-y-4">
+              <div className="h-10 w-full bg-gray-200 rounded"></div>
+              <div className="h-10 w-full bg-gray-200 rounded"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <Footer />
+    </div>
+  );
+}
+
+export default function BookEmail() {
+  return (
+    <Suspense fallback={<LoadingState />}>
+      <EmailForm />
+    </Suspense>
   );
 } 
