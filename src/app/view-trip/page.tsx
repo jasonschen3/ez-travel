@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense } from "react";
+import { Suspense, useRef } from "react";
 
 import { useSearchParams } from "next/navigation";
 import { useState, useEffect } from "react";
@@ -30,6 +30,8 @@ function ViewTrip() {
   const searchParams = useSearchParams();
   const [selectedTicket, setSelectedTicket] = useState<any>(null);
   const [itinerary, setItinerary] = useState<Itinerary | null>(null);
+  const [bookingId, setBookingId] = useState<string>("");
+  const bookingIdRef = useRef<string | null>(null);
 
   async function planTrip() {
     console.log("planning");
@@ -56,8 +58,25 @@ function ViewTrip() {
     }
   }
 
+  function generateBookingId() {
+    const timestamp = Date.now().toString(36); // Convert current timestamp to base-36
+    const randomString = Math.random().toString(36).substring(2, 8); // Generate a random string
+    return `booking_${timestamp}_${randomString}`;
+  }
+
   useEffect(() => {
-    planTrip();
+    const initializeTrip = async () => {
+      if (!bookingIdRef.current) {
+        const newBookingId = generateBookingId();
+        bookingIdRef.current = newBookingId;
+        setBookingId(newBookingId);
+        console.log(newBookingId);
+      }
+
+      await planTrip();
+    };
+
+    initializeTrip();
   }, [searchParams]);
 
   const handleRegenerate = () => {
@@ -67,6 +86,59 @@ function ViewTrip() {
 
   const handleCancel = () => {
     window.location.href = "/book";
+  };
+
+  // Total cost without Uber
+  const findTotalCost = () => {
+    if (!itinerary || !itinerary.steps) {
+      console.error("Itinerary is not available.");
+      return 0;
+    }
+
+    let totalCost = 0;
+
+    // Iterate through the steps and sum up the costs, excluding Uber
+    for (const step of itinerary.steps) {
+      if (step.mode.trim().toLowerCase() !== "uber") {
+        totalCost += step.cost;
+      }
+    }
+
+    return totalCost;
+  };
+
+  // Right now takes the total cost, doesn't factor out Uber or profits
+  const handleCheckout = async () => {
+    if (!itinerary) {
+      console.error("Itinerary is not available.");
+      return;
+    }
+
+    try {
+      const response = await fetch("/api/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          bookingId: bookingId,
+          amount: findTotalCost(),
+        }),
+      });
+
+      if (!response.ok) {
+        console.error("Failed to create checkout session.");
+        return;
+      }
+
+      const data = await response.json();
+      if (data.checkoutUrl) {
+        // Redirect to Stripe Checkout
+        window.location.href = data.checkoutUrl;
+      } else {
+        console.error("Checkout URL not found in response.");
+      }
+    } catch (error) {
+      console.error("Error during checkout:", error);
+    }
   };
 
   if (!itinerary) {
@@ -113,7 +185,8 @@ function ViewTrip() {
           </div>
           <div className="mt-6 border-t border-gray-200 pt-4 space-y-1 text-sm text-gray-700">
             <div>
-              <strong>Total Cost:</strong> {itinerary.totalCost}
+              <strong>Total Cost (including Uber):</strong>{" "}
+              {itinerary.totalCost}
             </div>
             <div>
               <strong>Total Time:</strong> {itinerary.totalTime}
@@ -123,14 +196,7 @@ function ViewTrip() {
             Above will be the approximation of your ideal itinerary
           </div>
           <div className="mt-6 flex space-x-4">
-            <BlueButton
-              onClick={() =>
-                (window.location.href =
-                  "https://buy.stripe.com/test_3cs8xX3dR0Q59igbII")
-              }
-            >
-              Confirm and Pay
-            </BlueButton>
+            <BlueButton onClick={handleCheckout}>Confirm and Pay</BlueButton>
             <button
               onClick={handleRegenerate}
               className="flex-1 rounded-lg px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white"

@@ -1,11 +1,19 @@
 import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
+import Stripe from "stripe";
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
 interface BookingData {
   source: string;
   destination: string;
   dateTime: string;
   email: string;
+}
+
+interface CheckoutData {
+  bookingId: string;
+  amount: number;
 }
 
 function validateBookingData(data: BookingData): string[] {
@@ -16,13 +24,11 @@ function validateBookingData(data: BookingData): string[] {
   if (!data.dateTime) errors.push("Departure date and time is required");
   if (!data.email) errors.push("Email is required");
 
-  // Email validation
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (data.email && !emailRegex.test(data.email)) {
     errors.push("Invalid email format");
   }
 
-  // Date validation
   if (data.dateTime) {
     const departureDate = new Date(data.dateTime);
     const now = new Date();
@@ -65,33 +71,5 @@ async function sendEmail(data: BookingData) {
   } catch (error) {
     console.error("Error sending email:", error);
     throw new Error("Failed to send email");
-  }
-}
-
-export async function POST(request: Request) {
-  try {
-    const data: BookingData = await request.json();
-    const errors = validateBookingData(data);
-
-    if (errors.length > 0) {
-      return NextResponse.json({ success: false, errors }, { status: 400 });
-    }
-
-    // Send email with booking data
-    await sendEmail(data);
-
-    // Log the valid data
-    console.log("Valid booking data received:", data);
-
-    return NextResponse.json(
-      { success: true, message: "Booking request received" },
-      { status: 200 }
-    );
-  } catch (error) {
-    console.error("Error processing booking:", error);
-    return NextResponse.json(
-      { success: false, errors: ["Internal server error"] },
-      { status: 500 }
-    );
   }
 }
