@@ -1,14 +1,11 @@
 import { PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 
 const prisma = new PrismaClient();
 
-export async function GET(
-  request: Request,
-  { params }: { params: { bookingId: string } }
-) {
-  console.log("test");
-  const { bookingId } = params;
+export async function GET(request: NextRequest) {
+  const bookingId = request.nextUrl.pathname.split("/").pop();
   console.log(bookingId);
 
   try {

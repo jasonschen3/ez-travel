@@ -1,7 +1,7 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 
@@ -21,7 +21,7 @@ interface Itinerary {
   totalTime: string;
 }
 
-export default function TripDetails() {
+function TripDetails() {
   const searchParams = useSearchParams();
   const bookingId = searchParams.get("bookingId");
   const [itinerary, setItinerary] = useState<Itinerary | null>(null);
@@ -108,7 +108,14 @@ export default function TripDetails() {
           </div>
         </div>
       </div>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
+}
+
+export default function suspenseTripDetails() {
+  <Suspense>
+    <TripDetails />
+    <Footer />
+  </Suspense>;
 }
