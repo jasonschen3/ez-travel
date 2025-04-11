@@ -1,8 +1,10 @@
 import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 import Stripe from "stripe";
+import { PrismaClient } from "@prisma/client";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
+const prisma = new PrismaClient();
 
 interface BookingData {
   source: string;
@@ -51,25 +53,29 @@ async function sendEmail(data: BookingData) {
 
   const mailOptions = {
     from: process.env.GMAIL_USER,
-    to: "tucker@tuckerritti.com",
-    cc: "jasonschen3@gmail.com",
-    subject: "New Booking Request",
+    to: data.email,
+    cc: ["tucker@tuckerritti.com", "jasonschen3@gmail.com"],
+    subject: "Booking Confirmation - Your Travel Details",
     html: `
-      <h2>New Booking Request</h2>
+      <h2>Booking Confirmation</h2>
+      <p>Thank you for booking your trip with us! Here are your travel details:</p>
       <p><strong>Source:</strong> ${data.source}</p>
       <p><strong>Destination:</strong> ${data.destination}</p>
       <p><strong>Departure Date/Time:</strong> ${new Date(
         data.dateTime
       ).toLocaleString()}</p>
       <p><strong>Customer Email:</strong> ${data.email}</p>
+      <p>We hope you have a great journey!</p>
+      <p>Best regards,</p>
+      <p>The Travel Team</p>
     `,
   };
 
   try {
     await transporter.sendMail(mailOptions);
-    console.log("Email sent successfully");
+    console.log("Confirmation email sent successfully");
   } catch (error) {
-    console.error("Error sending email:", error);
-    throw new Error("Failed to send email");
+    console.error("Error sending confirmation email:", error);
+    throw new Error("Failed to send confirmation email");
   }
 }

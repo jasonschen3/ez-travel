@@ -58,6 +58,7 @@ export default function BookingFormA() {
         source: data.source,
         destination: data.destination,
         dateTime: data.dateTime,
+        email: data.email,
       });
 
       router.push(`/view-trip?${searchParams.toString()}`);
@@ -162,4 +163,4 @@ export default function BookingFormA() {
       </BlueButton>
     </form>
   );
-} 
+}

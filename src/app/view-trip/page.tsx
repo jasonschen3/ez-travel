@@ -28,6 +28,11 @@ interface Itinerary {
 
 function ViewTrip() {
   const searchParams = useSearchParams();
+  const email = searchParams.get("email");
+  const source = searchParams.get("source");
+  const destination = searchParams.get("destination");
+  const dateTime = searchParams.get("dateTime");
+
   const [selectedTicket, setSelectedTicket] = useState<any>(null);
   const [itinerary, setItinerary] = useState<Itinerary | null>(null);
   const [bookingId, setBookingId] = useState<string>("");
@@ -35,10 +40,6 @@ function ViewTrip() {
 
   async function planTrip() {
     console.log("planning");
-
-    const source = searchParams.get("source");
-    const destination = searchParams.get("destination");
-    const dateTime = searchParams.get("dateTime");
 
     try {
       const response = await fetch("/api/plan", {
@@ -121,6 +122,11 @@ function ViewTrip() {
         body: JSON.stringify({
           bookingId: bookingId,
           amount: findTotalCost(),
+          itinerary: itinerary,
+          email: email,
+          source: source,
+          destination: destination,
+          dateTime: dateTime,
         }),
       });
 
