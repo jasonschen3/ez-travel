@@ -6,7 +6,7 @@ const prisma = new PrismaClient();
 
 export async function GET(request: NextRequest) {
   const bookingId = request.nextUrl.pathname.split("/").pop();
-  console.log(bookingId);
+  console.log("bookingId", bookingId);
 
   try {
     const booking = await prisma.booking.findUnique({
@@ -17,7 +17,10 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: "Booking not found" }, { status: 404 });
     }
 
-    return NextResponse.json({ itinerary: booking.itinerary });
+    return NextResponse.json({
+      itinerary: booking.itinerary,
+      email: booking.email,
+    });
   } catch (error) {
     console.error("Error fetching booking:", error);
     return NextResponse.json(

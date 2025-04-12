@@ -19,4 +19,5 @@ model Booking {
   email     String
   createdAt DateTime @default(now())
   itinerary Json // Store the itinerary as JSON
+  valid     Boolean  @default(false)
 }

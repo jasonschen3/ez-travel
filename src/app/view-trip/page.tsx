@@ -28,10 +28,10 @@ interface Itinerary {
 
 function ViewTrip() {
   const searchParams = useSearchParams();
-  const email = searchParams.get("email");
-  const source = searchParams.get("source");
-  const destination = searchParams.get("destination");
-  const dateTime = searchParams.get("dateTime");
+  const email = searchParams!.get("email");
+  const source = searchParams!.get("source");
+  const destination = searchParams!.get("destination");
+  const dateTime = searchParams!.get("dateTime");
 
   const [selectedTicket, setSelectedTicket] = useState<any>(null);
   const [itinerary, setItinerary] = useState<Itinerary | null>(null);

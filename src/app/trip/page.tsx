@@ -23,9 +23,10 @@ interface Itinerary {
 
 function TripDetails() {
   const searchParams = useSearchParams();
-  const bookingId = searchParams.get("bookingId");
+  const bookingId = searchParams!.get("bookingId");
   const [itinerary, setItinerary] = useState<Itinerary | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [email, setEmail] = useState("");
 
   useEffect(() => {
     async function fetchItinerary() {
@@ -37,6 +38,8 @@ function TripDetails() {
 
         if (response.ok) {
           setItinerary(data.itinerary);
+          setEmail(data.email);
+          console.log(data.email);
         } else {
           console.error("Failed to fetch itinerary:", data.error);
         }
@@ -101,8 +104,8 @@ function TripDetails() {
             {/* Trip Summary */}
             <div className="space-y-2 border-t border-gray-200 pt-6">
               <div className="font-bold text-gray-900">
-                Email confirmation has been sent. Tickets will be sent to same
-                email as soon as they're available.
+                Email confirmation has been sent to {email}. Tickets will be
+                sent to same email as soon as they're available.
               </div>
             </div>
           </div>
@@ -114,8 +117,10 @@ function TripDetails() {
 }
 
 export default function suspenseTripDetails() {
-  <Suspense>
-    <TripDetails />
-    <Footer />
-  </Suspense>;
+  return (
+    <Suspense fallback={<div>fallback</div>}>
+      <TripDetails />
+      <Footer />
+    </Suspense>
+  );
 }
