@@ -46,7 +46,7 @@ async function sendConfirmationEmail(data: {
           data.dateTime
         ).toLocaleString()}</p>
         <p><strong>Booking ID:</strong> ${data.bookingId}</p>
-        <p>View itinerary at ${data.url}</p>
+        <p>View itinerary at <a href="${data.url}" target="_blank">${data.url}</a></p>
         <p>We hope you have a great journey!</p>
         <p>Best regards,</p>
         <p>The Travel Team</p>
