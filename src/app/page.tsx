@@ -7,7 +7,7 @@ import LandingPage2 from "./components/LandingPage2";
 
 function LandingPageSelector() {
   const searchParams = useSearchParams();
-  const tag = searchParams.get("tag");
+  const tag = searchParams!.get("tag"); // potential issue
 
   return tag === "2" ? <LandingPage2 /> : <LandingPage1 />;
 }

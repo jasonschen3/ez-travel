@@ -9,7 +9,7 @@ import Navbar from "../components/Navbar";
 
 function BookingFormSelector() {
   const searchParams = useSearchParams();
-  const variant = searchParams.get("variant");
+  const variant = searchParams!.get("variant");
 
   return variant === "B" ? <BookingFormB /> : <BookingFormA />;
 }
