@@ -20,9 +20,9 @@ function EmailForm() {
 
     try {
       // Get all the search params
-      const source = searchParams.get("source");
-      const destination = searchParams.get("destination");
-      const dateTime = searchParams.get("dateTime");
+      const source = searchParams!.get("source");
+      const destination = searchParams!.get("destination");
+      const dateTime = searchParams!.get("dateTime");
 
       // Create new search params for the view-trip page
       const viewTripParams = new URLSearchParams({
@@ -41,7 +41,7 @@ function EmailForm() {
   };
 
   // If this page is accessed without the variant B flag, redirect to main booking page
-  if (searchParams.get("variant") !== "B") {
+  if (searchParams!.get("variant") !== "B") {
     router.push("/book");
     return null;
   }
@@ -127,4 +127,4 @@ export default function BookEmail() {
       <EmailForm />
     </Suspense>
   );
-} 
+}
