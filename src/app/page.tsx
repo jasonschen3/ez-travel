@@ -1,17 +1,6 @@
 "use client";
 
 import { Suspense } from "react";
-import { useSearchParams } from "next/navigation";
-import LandingPage1 from "./components/LandingPage1";
-import LandingPage2 from "./components/LandingPage2";
-
-function LandingPageSelector() {
-  const searchParams = useSearchParams();
-  const tag = searchParams!.get("tag"); // potential issue
-
-  return tag === "2" ? <LandingPage2 /> : <LandingPage1 />;
-}
-
 function LoadingState() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
@@ -32,7 +21,6 @@ function LoadingState() {
 export default function IndexPage() {
   return (
     <Suspense fallback={<LoadingState />}>
-      <LandingPageSelector />
     </Suspense>
   );
 }
