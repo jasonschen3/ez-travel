@@ -13,41 +13,11 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id        String   @id @default(uuid()) // or Int autoincrement()
-  name      String
-  email     String
-  isAdmin   Boolean
-  createdAt DateTime @default(now())
-
-  bookings Booking[]
-
-  @@unique([email])
-}
-
 model Booking {
   id        String   @id @default(uuid())
-  userId    String
-  user      User     @relation(fields: [userId], references: [id])
+  cost      Int // Euros
+  email     String
   createdAt DateTime @default(now())
-  status    Status   @default(NEW)
-  tickets   Ticket[]
-}
-
-model Ticket {
-  id          String   @id @default(uuid())
-  bookingId   String
-  booking     Booking  @relation(fields: [bookingId], references: [id])
-  createdAt   DateTime @default(now())
-  price       Int
-  imgUrl      String
-  description String
-  location    String
-  isActive    Boolean  @default(true)
-}
-
-enum Status {
-  NEW
-  ONGOING
-  COMPLETE
+  itinerary Json // Store the itinerary as JSON
+  valid     Boolean  @default(false)
 }
